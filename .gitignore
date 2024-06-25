@@ -2,4 +2,4 @@
 build/*
 dist/*
 kgraphservice.egg-info/*
-
+**/__pycache__/*

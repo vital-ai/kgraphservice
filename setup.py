@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kgraphservice',
-    version='0.0.6',
+    version='0.0.7',
     author='Marc Hadfield',
     author_email='marc@vital.ai',
     description='KGraph Service',
@@ -11,21 +11,24 @@ setup(
     url='https://github.com/vital-ai/kgraphservice',
     packages=find_packages(exclude=["test"]),
     license='Apache License 2.0',
+    scripts=[
+        'bin/kgraphservice'
+    ],
     install_requires=[
-            'vital-ai-vitalsigns>=0.1.19',
-            'vital-ai-domain>=0.1.4',
-            'six',
-            'pyyaml',
-            'vital-ai-haley-kg>=0.1.9',
-            'rdflib==7.0.0',
-            'SPARQLWrapper==2.0.0',
-            'networkx',
-            'matplotlib',
+        'vital-ai-vitalsigns>=0.1.20',
+        'vital-ai-domain>=0.1.7',
+        'six',
+        'pyyaml',
+        'vital-ai-haley-kg>=0.1.11',
+        'rdflib==7.0.0',
+        'SPARQLWrapper==2.0.0',
+        'networkx',
+        'matplotlib',
     ],
     classifiers=[
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.10',
+    python_requires='>=3.10'
 )

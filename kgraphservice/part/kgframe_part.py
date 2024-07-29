@@ -3,15 +3,22 @@ from ai_haley_kg_domain.model.KGFrame import KGFrame
 from ai_haley_kg_domain.model.KGSlot import KGSlot
 from vital_ai_vitalsigns.collection.graph_collection import GraphCollection
 from vital_ai_vitalsigns.model.GraphObject import GraphObject
-from vital_ai_vitalsigns.part.graph_part import GraphPart
+from kgraphservice.part.kgnode_part import KGNodePart
 
 G = TypeVar('G', bound=Optional[GraphObject])
 
 
-class KGFramePart(GraphPart):
+class KGFramePart(KGNodePart):
 
-    def __init__(self, data: List[G] = None, score: float = 1.0, *, graph_collection: GraphCollection | None = None):
-        super().__init__(data, score, graph_collection=graph_collection)
+    def __init__(self, *, data: List[G] = [], score: float = 1.0,
+                 base: G = None,
+                 in_edge: G = None,
+                 graph_collection: GraphCollection | None = None):
+
+        super().__init__(data=data, score=score,
+                         base=base,
+                         in_edge=in_edge,
+                         graph_collection=graph_collection)
 
     def get_kgslots(self) -> List[KGSlot]:
         kgframe = self.get_kgframe()

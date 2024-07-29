@@ -7,6 +7,9 @@ from vital_ai_vitalsigns.query.result_list import ResultList
 from vital_ai_vitalsigns.service.vital_namespace import VitalNamespace
 from vital_ai_vitalsigns.service.vital_service import VitalService
 from vital_ai_vitalsigns.service.vital_service_status import VitalServiceStatus
+
+from kgraphservice.kgraph_service_inf import KGraphServiceInterface
+from kgraphservice.ontology.ontology_query_manager import OntologyQueryManager
 from kgraphservice.part.kgframe_part import KGFramePart
 
 G = TypeVar('G', bound=Optional[GraphObject])
@@ -21,9 +24,13 @@ KGFP = TypeVar('KGFP', bound=Optional[KGFramePart])
 # see: https://weaviate.io/developers/weaviate/config-refs/schema/multi-vector
 
 
-class KGraphService:
+class KGraphService(KGraphServiceInterface):
     def __init__(self, vital_service: VitalService):
         self.vital_service = vital_service
+        self.ontology_query_manager = OntologyQueryManager()
+
+    def get_ontology_query_manager(self) -> OntologyQueryManager:
+        return self.ontology_query_manager
 
     def get_graph(self, graph_uri: str) -> VitalNamespace:
         return self.vital_service.get_graph(graph_uri)
@@ -52,11 +59,11 @@ class KGraphService:
     def insert_object_list(self, graph_uri: str, graph_object_list: List[G]) -> VitalServiceStatus:
         return self.vital_service.insert_object_list(graph_uri, graph_object_list)
 
-    def update_object(self, graph_object: G, graph_uri: str) -> VitalServiceStatus:
-        return self.vital_service.update_object(graph_object, graph_uri)
+    def update_object(self, graph_object: G, graph_uri: str, *, upsert: bool = False) -> VitalServiceStatus:
+        return self.vital_service.update_object(graph_object, graph_uri, upsert=upsert)
 
-    def update_object_list(self, graph_object_list: List[G], graph_uri: str) -> VitalServiceStatus:
-        return self.vital_service.update_object_list(graph_object_list, graph_uri)
+    def update_object_list(self, graph_object_list: List[G], graph_uri: str, *, upsert: bool = False) -> VitalServiceStatus:
+        return self.vital_service.update_object_list(graph_object_list, graph_uri, upsert=upsert)
 
     def get_object(self, object_uri: str, graph_uri: str | None = None) -> G:
         return self.vital_service.get_object(object_uri, graph_uri)

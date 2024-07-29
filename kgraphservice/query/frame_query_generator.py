@@ -180,6 +180,65 @@ class FrameQueryGenerator:
 
         return construct_query
 
+    # case of:
+    # entity (description) --> frame --> other entity
+    # or
+    # entity (description) <-- frame <-- other entity
+
+    @classmethod
+    def generate_connecting_frame_query(cls, entity_description: str):
+        namespace_list = cls.get_default_namespace_list()
+
+        binding_list = [
+            Binding("?uri", "urn:hasUri"),
+            Binding("?frame", "urn:hasFrame"),
+            Binding("?sourceSlot", "urn:hasSourceSlot"),
+            Binding("?destinationSlot", "urn:hasDestinationSlot"),
+            Binding("?sourceSlotEntity", "urn:hasSourceSlotEntity"),
+            Binding("?destinationSlotEntity", "urn:hasDestinationSlotEntity")
+        ]
+
+        frame_query = f"""
+           ?uri a haley-ai-kg:KGEntity ;
+                haley-ai-kg:hasKGraphDescription ?description .
+                ?description bif:contains "{entity_description}" .
+           {{
+             ?sourceEdge a haley-ai-kg:Edge_hasKGSlot ;
+                         vital-core:hasEdgeSource ?frame ;
+                         vital-core:hasEdgeDestination ?sourceSlot .
+             ?sourceSlot a haley-ai-kg:KGEntitySlot ;
+                         haley-ai-kg:hasEntitySlotValue ?uri ;
+                         haley-ai-kg:hasKGSlotType <urn:hasSourceEntity> .
+             ?destinationEdge a haley-ai-kg:Edge_hasKGSlot ;
+                              vital-core:hasEdgeSource ?frame ;
+                              vital-core:hasEdgeDestination ?destinationSlot .
+             ?destinationSlot a haley-ai-kg:KGEntitySlot ;
+                              haley-ai-kg:hasEntitySlotValue ?destinationSlotEntity ;
+                              haley-ai-kg:hasKGSlotType <urn:hasDestinationEntity> .
+             BIND(?uri AS ?sourceSlotEntity)
+           }}
+           UNION
+           {{
+             ?destinationEdge a haley-ai-kg:Edge_hasKGSlot ;
+                              vital-core:hasEdgeSource ?frame ;
+                              vital-core:hasEdgeDestination ?destinationSlot .
+             ?destinationSlot a haley-ai-kg:KGEntitySlot ;
+                              haley-ai-kg:hasEntitySlotValue ?uri ;
+                              haley-ai-kg:hasKGSlotType <urn:hasDestinationEntity> .
+             ?sourceEdge a haley-ai-kg:Edge_hasKGSlot ;
+                         vital-core:hasEdgeSource ?frame ;
+                         vital-core:hasEdgeDestination ?sourceSlot .
+             ?sourceSlot a haley-ai-kg:KGEntitySlot ;
+                         haley-ai-kg:hasEntitySlotValue ?sourceSlotEntity ;
+                         haley-ai-kg:hasKGSlotType <urn:hasSourceEntity> .
+             BIND(?uri AS ?destinationSlotEntity)
+           }}
+           """
+
+        construct_query = ConstructQuery(namespace_list, binding_list, frame_query)
+
+        return construct_query
+
     @classmethod
     def generate_criteria_query(cls,
                                 criteria_list: List[KGSlotCriterion],

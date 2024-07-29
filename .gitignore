@@ -3,3 +3,4 @@ build/*
 dist/*
 kgraphservice.egg-info/*
 **/__pycache__/*
+**/*.yaml

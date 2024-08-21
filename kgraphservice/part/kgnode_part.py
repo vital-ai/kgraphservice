@@ -21,6 +21,10 @@ class KGNodePart(GraphPart):
 
         self._modified = False
 
+        # the underlying mutable sequence is already storing the
+        # list, so don't need to store in _data
+        # but need to make it consistent
+        self._data = data
         self._base = base
         self._in_edge = in_edge
         rest_list = []
@@ -39,6 +43,8 @@ class KGNodePart(GraphPart):
             self._init = True
         else:
             self._init = False
+
+        self._modified = False
 
         self._data = data
         self._base = base

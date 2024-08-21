@@ -64,6 +64,7 @@ collections:
         type: string
         description: "Name of the slot"
     cross_links: []
+
   - name: EdgehasRelation
     description: "Edge Relation in the Knowledge Graph"
     class_uri: edge_relation

@@ -19,7 +19,7 @@ setup(
         'vital-ai-domain>=0.1.7',
         'six',
         'pyyaml',
-        'vital-ai-haley-kg>=0.1.11',
+        'vital-ai-haley-kg>=0.1.13',
         'rdflib==7.0.0',
         'SPARQLWrapper==2.0.0',
         'networkx',

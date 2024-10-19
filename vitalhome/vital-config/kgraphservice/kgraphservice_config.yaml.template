@@ -1,0 +1,10 @@
+kgraphservice:
+  - name: local_kgraphservice
+    kgraphservice_type: local
+    vitalservice: "vitalservice_name"
+  - name: rest_kgraphservice
+    kgraphservice_type: rest
+    endpoint: "http://localhost:8787"
+    vector_database_schema_list: [ "kgraphservice/kgraph_weaviate_schema.yaml" ]
+
+

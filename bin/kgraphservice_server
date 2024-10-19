@@ -1,0 +1,4 @@
+#!/bin/bash
+
+python -m kgraphservice_app.kgraphservice_app "$@"
+

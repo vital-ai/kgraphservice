@@ -17,7 +17,9 @@ def main():
     print('Test KGraph Chat Message')
 
     print('Ontologies Initializing...')
+
     vs = VitalSigns()
+
     print('Ontologies Initialized.')
 
     current_file_path = os.path.abspath(__file__)
@@ -118,7 +120,6 @@ def main():
     # insert another in between #A and #B as #D
 
     # confirm order A,D,B,C
-
 
     result_list = kgraph_service.get_graph_all_objects(test_graph_uri, limit=100, offset=0)
 

@@ -1,14 +1,16 @@
 from typing import List, TypeVar, Type, Tuple, Optional
 from ai_haley_kg_domain.model.KGInteraction import KGInteraction
 from ai_haley_kg_domain.model.KGNode import KGNode
+from vital_ai_vitalsigns.metaql.metaql_query import SelectQuery, GraphQuery
 from vital_ai_vitalsigns.model.GraphObject import GraphObject
+from vital_ai_vitalsigns.query.metaql_result import MetaQLResult
 from vital_ai_vitalsigns.query.part_list import PartList
 from vital_ai_vitalsigns.query.result_list import ResultList
 from vital_ai_vitalsigns.service.vital_namespace import VitalNamespace
 from vital_ai_vitalsigns.service.vital_service import VitalService
 from vital_ai_vitalsigns.service.vital_service_status import VitalServiceStatus
 
-from kgraphservice.kgraph_service_inf import KGraphServiceInterface
+from kgraphservice.inf.kgraph_service_inf import KGraphServiceInterface
 from kgraphservice.ontology.ontology_query_manager import OntologyQueryManager
 from kgraphservice.part.kgframe_part import KGFramePart
 
@@ -32,25 +34,25 @@ class KGraphService(KGraphServiceInterface):
     def get_ontology_query_manager(self) -> OntologyQueryManager:
         return self.ontology_query_manager
 
-    def get_graph(self, graph_uri: str) -> VitalNamespace:
+    def get_kgraph(self, graph_uri: str) -> VitalNamespace:
         return self.vital_service.get_graph(graph_uri)
 
-    def list_graphs(self) -> List[VitalNamespace]:
+    def list_kgraphs(self) -> List[VitalNamespace]:
         return self.vital_service.list_graphs()
 
-    def check_create_graph(self, graph_uri: str) -> bool:
+    def check_create_kgraph(self, graph_uri: str) -> bool:
         return self.vital_service.check_create_graph(graph_uri)
 
-    def create_graph(self, graph_uri: str) -> bool:
+    def create_kgraph(self, graph_uri: str) -> bool:
         return self.vital_service.create_graph(graph_uri)
 
-    def delete_graph(self, graph_uri: str) -> bool:
+    def delete_kgraph(self, graph_uri: str) -> bool:
         return self.vital_service.delete_graph(graph_uri)
 
-    def purge_graph(self, graph_uri: str) -> bool:
+    def purge_kgraph(self, graph_uri: str) -> bool:
         return self.vital_service.purge_graph(graph_uri)
 
-    def get_graph_all_objects(self, graph_uri: str, limit=100, offset=0) -> ResultList:
+    def get_kgraph_all_objects(self, graph_uri: str, limit=100, offset=0) -> ResultList:
         return self.vital_service.get_graph_all_objects(graph_uri, limit=limit, offset=offset)
 
     def insert_object(self, graph_uri: str, graph_object: G) -> VitalServiceStatus:
@@ -114,10 +116,10 @@ class KGraphService(KGraphServiceInterface):
     def get_frames_root(self, graph_uri: str, root_uri: str, limit=100, offset=0) -> PartList:
         pass
 
-    def get_graph_objects_type(self, graph_uri: str, class_uri: str, include_subclasses=True, limit=100, offset=0) -> ResultList:
+    def get_kgraph_objects_type(self, graph_uri: str, class_uri: str, include_subclasses=True, limit=100, offset=0) -> ResultList:
         pass
 
-    def get_graph_objects_tag(self, graph_uri: str, kg_graph_uri: str, limit=100, offset=0) -> ResultList:
+    def get_kgraph_objects_tag(self, graph_uri: str, kg_graph_uri: str, limit=100, offset=0) -> ResultList:
         pass
 
     def delete_frame(self, graph_uri: str, frame_uri: str) -> VitalServiceStatus:
@@ -132,5 +134,43 @@ class KGraphService(KGraphServiceInterface):
     def delete_frames_id(self, graph_uri: str, frame_id_list: List[str]) -> VitalServiceStatus:
         pass
 
-    def delete_graph_objects_tag(self, graph_uri: str, kg_graph_uri: str) -> VitalServiceStatus:
+    def delete_kgraph_objects_tag(self, graph_uri: str, kg_graph_uri: str) -> VitalServiceStatus:
         pass
+
+    def get_kgraph_info(self, graph_uri: str) -> KGraphInfo:
+        pass
+
+    def get_frame_info(self, graph_uri: str) -> FrameInfo:
+        pass
+
+    def get_interaction_info(self, graph_uri: str) -> InteractionInfo:
+        pass
+
+    def metaql_select_query(self, *,
+                            select_query: SelectQuery
+                            ) -> MetaQLResult:
+
+        # TODO set these
+        namespace = ""
+        namespace_list = []
+
+        return self.vital_service.metaql_select_query(
+            namespace=namespace,
+            select_query=select_query,
+            namespace_list=namespace_list
+        )
+
+    def metaql_graph_query(self, *,
+                           graph_query: GraphQuery
+                           ) -> MetaQLResult:
+        # TODO set these
+        namespace = ""
+        namespace_list = []
+
+        return self.vital_service.metaql_graph_query(
+            namespace=namespace,
+            graph_query=graph_query,
+            namespace_list=namespace_list
+        )
+
+

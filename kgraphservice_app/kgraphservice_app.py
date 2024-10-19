@@ -2,20 +2,10 @@ import argparse
 import os
 import sys
 
-
-# list endpoints
-# get stats of endpoints
-# connection test, databases
-# connection test, embedding models
-# check for collections/graphs for kg
-# get stats of collections by type
-# get stats of graphs by type
-# re-index collection(s), needs embedding model access, via config
-# the config specifies embedding model to use with values, types at service level
-# can override for collections identified by URI of class
+from kgraphservice_rest.kgraphservice_rest_app import run_app
 
 
-class KGraphServiceCommand:
+class KGraphServiceServer:
     def __init__(self, args):
         self.parser = self.create_parser()
         self.args = self.parser.parse_args()
@@ -23,13 +13,15 @@ class KGraphServiceCommand:
 
     def create_parser(self):
 
-        parser = argparse.ArgumentParser(prog="kgraphservice", description="KGraphService Command", add_help=True)
+        parser = argparse.ArgumentParser(prog="kgraphservice", description="KGraphServiceServer", add_help=True)
 
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
         help_parser = subparsers.add_parser('help', help="Display help information")
 
         info_parser = subparsers.add_parser('info', help="Display information about the system and environment")
+
+        start_parser = subparsers.add_parser('start', help="Start Server")
 
         return parser
 
@@ -38,21 +30,27 @@ class KGraphServiceCommand:
             self.parser.print_help()
         elif self.args.command == 'info':
             self.info()
+        elif self.args.command == 'start':
+            self.start()
         else:
             self.parser.print_help()
 
     def info(self):
         vital_home = self.vital_home
-        print("KGraphService Info")
-        # list kgraphservices
-        # for a given kgraphservice:
-        # kgraph, frame, interaction info
+        print("KGraphServiceServer Info")
         print(f"Current VITAL_HOME: {vital_home}")
+
+    def start(self):
+        vital_home = self.vital_home
+        print("KGraphServiceServer Start")
+        print(f"Current VITAL_HOME: {vital_home}")
+
+        run_app()
 
 
 def main():
     import sys
-    command = KGraphServiceCommand(sys.argv[1:])
+    command = KGraphServiceServer(sys.argv[1:])
     command.run()
 
 

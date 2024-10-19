@@ -2,12 +2,16 @@ from abc import ABC, abstractmethod
 from typing import List, TypeVar, Optional, Type, Tuple
 from ai_haley_kg_domain.model.KGInteraction import KGInteraction
 from ai_haley_kg_domain.model.KGNode import KGNode
+from vital_ai_vitalsigns.metaql.metaql_query import GraphQuery, SelectQuery
 from vital_ai_vitalsigns.model.GraphObject import GraphObject
+from vital_ai_vitalsigns.query.metaql_result import MetaQLResult
 from vital_ai_vitalsigns.query.part_list import PartList
 from vital_ai_vitalsigns.query.result_list import ResultList
 from vital_ai_vitalsigns.service.vital_namespace import VitalNamespace
 from vital_ai_vitalsigns.service.vital_service_status import VitalServiceStatus
-from kgraphservice.ontology.ontology_query_manager import OntologyQueryManager
+from kgraphservice.info.frame_info import FrameInfo
+from kgraphservice.info.interaction_info import InteractionInfo
+from kgraphservice.info.kgraph_info import KGraphInfo
 from kgraphservice.part.kgframe_part import KGFramePart
 
 G = TypeVar('G', bound=Optional[GraphObject])
@@ -15,37 +19,36 @@ KGN = TypeVar('KGN', bound=Optional[KGNode])
 KGFP = TypeVar('KGFP', bound=Optional[KGFramePart])
 
 
+# remove non metaql query functions
+
 class KGraphServiceInterface(ABC):
+
     @abstractmethod
-    def get_ontology_query_manager(self) -> OntologyQueryManager:
+    def get_kgraph(self, graph_uri: str) -> VitalNamespace:
         pass
 
     @abstractmethod
-    def get_graph(self, graph_uri: str) -> VitalNamespace:
+    def list_kgraphs(self) -> List[VitalNamespace]:
         pass
 
     @abstractmethod
-    def list_graphs(self) -> List[VitalNamespace]:
+    def check_create_kgraph(self, graph_uri: str) -> bool:
         pass
 
     @abstractmethod
-    def check_create_graph(self, graph_uri: str) -> bool:
+    def create_kgraph(self, graph_uri: str) -> bool:
         pass
 
     @abstractmethod
-    def create_graph(self, graph_uri: str) -> bool:
+    def delete_kgraph(self, graph_uri: str) -> bool:
         pass
 
     @abstractmethod
-    def delete_graph(self, graph_uri: str) -> bool:
+    def purge_kgraph(self, graph_uri: str) -> bool:
         pass
 
     @abstractmethod
-    def purge_graph(self, graph_uri: str) -> bool:
-        pass
-
-    @abstractmethod
-    def get_graph_all_objects(self, graph_uri: str, limit=100, offset=0) -> ResultList:
+    def get_kgraph_all_objects(self, graph_uri: str, limit=100, offset=0) -> ResultList:
         pass
 
     @abstractmethod
@@ -78,10 +81,6 @@ class KGraphServiceInterface(ABC):
 
     @abstractmethod
     def delete_object_list(self, object_uri_list: List[str], graph_uri: str | None = None) -> VitalServiceStatus:
-        pass
-
-    @abstractmethod
-    def filter_query(self, graph_uri: str, sparql_query: str) -> ResultList:
         pass
 
     @abstractmethod
@@ -132,12 +131,12 @@ class KGraphServiceInterface(ABC):
         pass
 
     @abstractmethod
-    def get_graph_objects_type(self, graph_uri: str, class_uri: str, include_subclasses=True, limit=100,
+    def get_kgraph_objects_type(self, graph_uri: str, class_uri: str, include_subclasses=True, limit=100,
                                offset=0) -> ResultList:
         pass
 
     @abstractmethod
-    def get_graph_objects_tag(self, graph_uri: str, kg_graph_uri: str, limit=100, offset=0) -> ResultList:
+    def get_kgraph_objects_tag(self, graph_uri: str, kg_graph_uri: str, limit=100, offset=0) -> ResultList:
         pass
 
     @abstractmethod
@@ -157,5 +156,30 @@ class KGraphServiceInterface(ABC):
         pass
 
     @abstractmethod
-    def delete_graph_objects_tag(self, graph_uri: str, kg_graph_uri: str) -> VitalServiceStatus:
+    def delete_kgraph_objects_tag(self, graph_uri: str, kg_graph_uri: str) -> VitalServiceStatus:
         pass
+
+    @abstractmethod
+    def get_kgraph_info(self, graph_uri: str) -> KGraphInfo:
+        pass
+
+    @abstractmethod
+    def get_frame_info(self, graph_uri: str) -> FrameInfo:
+        pass
+
+    @abstractmethod
+    def get_interaction_info(self, graph_uri: str) -> InteractionInfo:
+        pass
+
+    @abstractmethod
+    def metaql_select_query(self, *,
+                            select_query: SelectQuery
+                            ) -> MetaQLResult:
+        pass
+
+    @abstractmethod
+    def metaql_graph_query(self, *,
+                           graph_query: GraphQuery
+                           ) -> MetaQLResult:
+        pass
+

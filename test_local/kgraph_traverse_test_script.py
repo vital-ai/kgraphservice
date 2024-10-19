@@ -10,7 +10,9 @@ def main():
     print('Test KGraph Traverse')
 
     print('Ontologies Initializing...')
+
     vs = VitalSigns()
+
     print('Ontologies Initialized.')
 
     current_file_path = os.path.abspath(__file__)
@@ -70,6 +72,7 @@ def main():
         print(g.to_json())
 
     vital_service = kgraph_service.vital_service
+
     graph_service = vital_service.graph_service
 
     if isinstance(graph_service, MemoryGraphService):

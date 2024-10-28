@@ -2,9 +2,7 @@ from vital_ai_vitalsigns.metaql.metaql_query import SelectQuery, GraphQuery
 from vital_ai_vitalsigns.metaql.metaql_result_element import MetaQLResultElement
 from vital_ai_vitalsigns.metaql.metaql_result_list import MetaQLResultList
 from vital_ai_vitalsigns.query.metaql_result import MetaQLResult
-from vital_ai_vitalsigns.service.vital_namespace import VitalNamespace
 from vital_ai_vitalsigns.service.vital_service import VitalService
-
 from kgraphservice.rest.impl.kgraphservice_builder import KGraphServiceBuilder
 from kgraphservice.rest.impl.kgraphservice_parser import KGraphServiceParser
 
@@ -107,9 +105,7 @@ class KGraphServiceRESTImpl:
                     print(f"Graph Query: {graph_query}")
 
                     metaql_result: MetaQLResult = self._vitalservice.metaql_graph_query(
-                        namespace="",
-                        graph_query=graph_query,
-                        namespace_list=[]
+                        graph_query=graph_query
                     )
 
                     # print(f"MetaQLResult: {metaql_result}")
@@ -149,6 +145,3 @@ class KGraphServiceRESTImpl:
         response = {'response': 'unknown'}
 
         return response
-
-
-

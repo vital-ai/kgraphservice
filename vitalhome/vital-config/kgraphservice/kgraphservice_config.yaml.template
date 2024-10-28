@@ -7,4 +7,8 @@ kgraphservice:
     endpoint: "http://localhost:8787"
     vector_database_schema_list: [ "kgraphservice/kgraph_weaviate_schema.yaml" ]
 
-
+kgraphservice_binary:
+  aws_access_key_id: ""
+  aws_secret_access_key: ""
+  region_name: ""
+  bucket_name: ""

@@ -159,11 +159,7 @@ def main():
         namespace_list=ontology_list
     )
 
-    # compare sparql with groovy implementation
-
     print(f"Graph Query SPARQL:\n{sparql_string}")
-
-    # config = ConfigUtils.load_config()
 
     vitalservice_config = config.vitalservice_list[0]
 

@@ -4,3 +4,6 @@ dist/*
 kgraphservice.egg-info/*
 **/__pycache__/*
 **/*.yaml
+test_output/*
+**/.DS_Store
+

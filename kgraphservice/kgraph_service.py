@@ -11,6 +11,9 @@ from vital_ai_vitalsigns.service.vital_service import VitalService
 from vital_ai_vitalsigns.service.vital_service_status import VitalServiceStatus
 
 from kgraphservice.inf.kgraph_service_inf import KGraphServiceInterface
+from kgraphservice.info.frame_info import FrameInfo
+from kgraphservice.info.interaction_info import InteractionInfo
+from kgraphservice.info.kgraph_info import KGraphInfo
 from kgraphservice.ontology.ontology_query_manager import OntologyQueryManager
 from kgraphservice.part.kgframe_part import KGFramePart
 
